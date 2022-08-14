@@ -22,40 +22,12 @@ type RoomParams = {
 };
 
 export function AdminRoom() {
-  const { user } = useAuth();
+  // const { user } = useAuth();
 
   const { id } = useParams<RoomParams>();
   const roomId = id || '';
 
   const { questions, title } = useRoom(roomId);
-
-  const [newQuestion, setNewQuestion] = useState('');
-
-  async function handleSendQuestion(event: FormEvent) {
-    event.preventDefault();
-
-    if (newQuestion.trim() === '') {
-      return;
-    }
-
-    if (!user) {
-      throw new Error('You must be logged in');
-    }
-
-    const question = {
-      content: newQuestion,
-      author: {
-        name: user.name,
-        avatar: user.avatar,
-      },
-      isHighlighted: false,
-      isAnswered: false,
-    };
-
-    const roomRef = ref(database, `rooms/${roomId}/questions/${uuidv4()}`);
-    await set(roomRef, question);
-    setNewQuestion('');
-  }
 
   return (
     <div id='page-room'>
